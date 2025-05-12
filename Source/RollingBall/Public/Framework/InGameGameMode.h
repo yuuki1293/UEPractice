@@ -39,10 +39,4 @@ public:
 private:
 	/** PlayerをRespawnする **/
 	void RespawnPlayer();
-
-	/** PlayerのLife **/
-	int32 TotalLifes = 3;
-
-	/** 取得したコインの数 */
-	int32 TotalCoins = 0;
 };
