@@ -43,8 +43,14 @@ protected:
     void Boost(const FInputActionValue& Value);
 
 public:	
+    /** PlayerにDamageを与える */
+	float TakeDamagePlayer(const float Damage);
+	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	/** PlayerをReboundさせる */
+	void Rebound(const float ReboundPower);
 
 private:
 	/** Character用のStaticMesh : Sphere */

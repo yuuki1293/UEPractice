@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/ArrowComponent.h" 
+#include "Framework/InGameGameMode.h"
 
 // Sets default values
 ABallPlayer::ABallPlayer()
@@ -192,4 +193,30 @@ void ABallPlayer::Boost(const FInputActionValue& Value)
 		// Torqueを与えて加速する
 		Sphere->AddTorqueInRadians(TorqueVector, TEXT("None"), true);
 	}
+}
+
+float ABallPlayer::TakeDamagePlayer(const float Damage)
+{
+	Health = Health - Damage;
+
+	if (Health <= 0)
+	{
+		// GameModeを取得して、InGameGameModeにCastする
+		if (AInGameGameMode* GameMode = Cast<AInGameGameMode>(UGameplayStatics::GetGameMode(GetWorld())))
+		{
+			// KillPlayerを呼び出してPlayerを破棄する
+			GameMode->KillPlayer(this);
+		}
+	}
+
+	return Health;
+}
+
+void ABallPlayer::Rebound(const float ReboundPower)
+{
+	// ReboundさせるImpluseの値を算出する
+	FVector Impluse = Arrow->GetForwardVector() * (-1.0f * ReboundPower);
+
+	// Speherに力を与える
+	Sphere->AddImpulse(Impluse, TEXT("None"), true);
 }
