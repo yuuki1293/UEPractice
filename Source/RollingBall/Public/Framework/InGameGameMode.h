@@ -32,6 +32,9 @@ public:
 
 	/** GameをRestartする **/
 	void RestartGame();
+	
+	/** 取得したコインの枚数を追加する */
+	int AddCoin(const int32 CoinNumber);
 
 private:
 	/** PlayerをRespawnする **/
@@ -39,4 +42,7 @@ private:
 
 	/** PlayerのLife **/
 	int32 TotalLifes = 3;
+
+	/** 取得したコインの数 */
+	int32 TotalCoins = 0;
 };

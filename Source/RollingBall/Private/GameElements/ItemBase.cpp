@@ -21,6 +21,9 @@ AItemBase::AItemBase()
 	// Radiusを設定する
 	Sphere->SetSphereRadius(50.0f);
 
+	// OnComponentBeginOverlapをBindする
+	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AItemBase::OnSphereBeginOverlap);
+
 	// RotatingMovementComponentを追加する
 	RotatingMovement = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotatingMovementComponent"));
 	RotatingMovement->SetUpdatedComponent(ItemMesh);

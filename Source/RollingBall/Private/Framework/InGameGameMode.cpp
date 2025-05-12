@@ -63,3 +63,11 @@ void AInGameGameMode::RestartGame()
 	// 現在のLevelを開きなおす
 	UGameplayStatics::OpenLevel(GetWorld(), FName(*CurrentLevelName));
 }
+
+int AInGameGameMode::AddCoin(const int32 CoinNumber)
+{
+	// 取得したコインの枚数を追加する
+	TotalCoins = TotalCoins + CoinNumber;
+
+	return TotalCoins;
+}
