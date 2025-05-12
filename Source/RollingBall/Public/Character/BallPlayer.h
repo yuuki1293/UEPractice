@@ -52,6 +52,9 @@ public:
 	/** PlayerをReboundさせる */
 	void Rebound(const float ReboundPower);
 
+	/** Playerを回復させる */
+	float Heal(const float Value);
+
 private:
 	/** Character用のStaticMesh : Sphere */
 	UPROPERTY(VisibleAnywhere, Category = Character, meta = (AllowPrivateAccess = "true"))
@@ -103,4 +106,7 @@ private:
 	
 	// 加速する早さ
 	float Torque = 500000000.0f;
+
+	// 最大体力
+	float HealthMax = 100.0f;
 };

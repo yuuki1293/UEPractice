@@ -220,3 +220,11 @@ void ABallPlayer::Rebound(const float ReboundPower)
 	// Speherに力を与える
 	Sphere->AddImpulse(Impluse, TEXT("None"), true);
 }
+
+float ABallPlayer::Heal(const float Value)
+{
+	// HealthがHealthMax以上にならないように制限する
+	Health = FMath::Clamp(Health + Value, 0, HealthMax);
+
+	return Health;
+}
