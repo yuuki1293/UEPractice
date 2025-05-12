@@ -39,6 +39,27 @@ void AInGameGameMode::KillPlayer(ABallPlayer* Player)
 	// Playerを破棄する
 	Player->Destroy();
 
-	// Respawnを行う
-	RespawnPlayer();
+	// TotalLifesをDecrimentする
+	TotalLifes--;
+
+	if (0 <= TotalLifes)
+	{
+		// Respawnを行う
+		RespawnPlayer();
+	}
+	else
+	{
+		// GameをRestartする
+		UE_LOG(LogTemp, Display, TEXT("GameOver"));
+		RestartGame();
+	}
+}
+
+void AInGameGameMode::RestartGame()
+{
+	// 現在のLevelNameを取得する
+	const FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+
+	// 現在のLevelを開きなおす
+	UGameplayStatics::OpenLevel(GetWorld(), FName(*CurrentLevelName));
 }

@@ -30,7 +30,13 @@ public:
 	/** Playerを破棄する **/
 	void KillPlayer(ABallPlayer* Player);
 
+	/** GameをRestartする **/
+	void RestartGame();
+
 private:
 	/** PlayerをRespawnする **/
 	void RespawnPlayer();
+
+	/** PlayerのLife **/
+	int32 TotalLifes = 3;
 };
