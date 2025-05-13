@@ -41,7 +41,7 @@ protected:
 	
 	// 加速する
     void Boost(const FInputActionValue& Value);
-
+	
 public:	
     /** PlayerにDamageを与える */
 	float TakeDamagePlayer(const float Damage);
@@ -54,6 +54,10 @@ public:
 
 	/** Playerを回復させる */
 	float Heal(const float Value);
+
+	float GetHealth() const { return Health; }
+
+	float GetHealthMax() const { return HealthMax; }
 
 private:
 	/** Character用のStaticMesh : Sphere */
@@ -98,6 +102,9 @@ private:
 	// 体力
 	float Health = 100.0f;
 
+	// 最大体力
+	float HealthMax = 100.0f;
+	
 	// ジャンプに加える力
 	float JumpImpulse = 500.0f;
 
@@ -106,7 +113,4 @@ private:
 	
 	// 加速する早さ
 	float Torque = 500000000.0f;
-
-	// 最大体力
-	float HealthMax = 100.0f;
 };

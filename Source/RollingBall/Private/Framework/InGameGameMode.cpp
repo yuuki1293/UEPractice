@@ -6,10 +6,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "Framework/RollingBallGameInstance.h"
+#include "Framework/InGameHUD.h"
 
 AInGameGameMode::AInGameGameMode()
 {
 	DefaultPawnClass = ABallPlayer::StaticClass();
+	HUDClass = AInGameHUD::StaticClass();
 }
 
 void AInGameGameMode::BeginPlay()
