@@ -13,7 +13,21 @@ UCLASS()
 class ROLLINGBALL_API AInGameHUD : public AHUD
 {
 	GENERATED_BODY()
+	
+public:
+	// Pauseメニューの表示/非表示
+	void DispPause(const bool IsPause);
 
+	// Levelを開く
+	void OpenLevel(const FName LevelName);
+
+	// Gameを終了する
+	void QuitGame();
+	
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	// PauseWidgetを保持する変数
+	UUserWidget* PauseWidget;
 };

@@ -7,11 +7,13 @@
 #include "GameFramework/PlayerStart.h"
 #include "Framework/RollingBallGameInstance.h"
 #include "Framework/InGameHUD.h"
+#include "Framework/InGamePlayerController.h"
 
 AInGameGameMode::AInGameGameMode()
 {
 	DefaultPawnClass = ABallPlayer::StaticClass();
 	HUDClass = AInGameHUD::StaticClass();
+	PlayerControllerClass = AInGamePlayerController::StaticClass();
 }
 
 void AInGameGameMode::BeginPlay()
