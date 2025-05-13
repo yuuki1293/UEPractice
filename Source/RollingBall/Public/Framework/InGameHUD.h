@@ -23,6 +23,12 @@ public:
 
 	// Gameを終了する
 	void QuitGame();
+
+	// GameOverメニューを表示する
+	void DispGameOver();
+
+	// Gameを再開する
+	void ContinueGame();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -30,4 +36,7 @@ protected:
 private:
 	// PauseWidgetを保持する変数
 	UUserWidget* PauseWidget;
+
+	// GameOverWidgetを保持する変数
+	UUserWidget* GameOverWidget;
 };

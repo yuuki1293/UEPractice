@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Framework/RollingBallGameInstance.h"
 
 void AInGameHUD::BeginPlay()
 {
@@ -16,6 +17,10 @@ void AInGameHUD::BeginPlay()
 	// WidgetBlueprintのClassを取得する
 	FString PauseWidgetPath = TEXT("/Game/RollingBall/Blueprints/UI/BPW_Pause.BPW_Pause_C");
 	TSubclassOf<UUserWidget> PauseWidgetClass = TSoftClassPtr<UUserWidget>(FSoftObjectPath(*PauseWidgetPath)).LoadSynchronous();
+
+	// WidgetBlueprintのClassを取得する
+	FString GameOverWidgetPath = TEXT("/Game/RollingBall/Blueprints/UI/BPW_GameOver.BPW_GameOver_C");
+	TSubclassOf<UUserWidget> GameOverWidgetClass = TSoftClassPtr<UUserWidget>(FSoftObjectPath(*GameOverWidgetPath)).LoadSynchronous();
 
 	// PlayerControllerを取得する
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -37,6 +42,15 @@ void AInGameHUD::BeginPlay()
 
 		// Viewportに追加する
 		PauseWidget->AddToViewport(1);
+
+		// ゲームオーバー用のWidgetを作成する
+		GameOverWidget = UWidgetBlueprintLibrary::Create(GetWorld(), GameOverWidgetClass, PlayerController);
+
+		// GameOverメニューを折りたたみ状態にする
+		GameOverWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+		// Viewportに追加する
+		GameOverWidget->AddToViewport(2);
 	}
 }
 
@@ -89,4 +103,37 @@ void AInGameHUD::QuitGame()
 {
 	// ゲームを終了する
 	UKismetSystemLibrary::QuitGame(GetWorld(), GetOwningPlayerController(),  EQuitPreference::Quit, false);
+}
+
+void AInGameHUD::DispGameOver()
+{
+	// GameOverWidgetを表示する
+	GameOverWidget->SetVisibility(ESlateVisibility::Visible);
+
+	// PlayerControllerを取得する
+	APlayerController* PlayerController = GetOwningPlayerController();
+
+	// UIモードに設定する
+	UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PlayerController, GameOverWidget, EMouseLockMode::DoNotLock, false);
+
+	// GameをPause状態にする
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+
+	// Mouseカーソルを表示する
+	PlayerController->SetShowMouseCursor(true);
+}
+
+void AInGameHUD::ContinueGame()
+{
+	// GameInstanceを取得する
+	URollingBallGameInstance* GameInstance = Cast<URollingBallGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	// GameInstanceの変数を初期化する
+	GameInstance->Initialize();
+
+	// 現在のLevelNameを取得する
+	const FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+
+	// 現在のLevelを開きなおす
+	UGameplayStatics::OpenLevel(GetWorld(), FName(*CurrentLevelName));
 }
